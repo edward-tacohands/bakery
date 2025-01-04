@@ -1,0 +1,17 @@
+[
+    {
+        "itemNumber": "AAA111",
+        "productName": "Mjöl",
+        "pricePerKg": 10.99
+    },
+    {
+        "itemNumber": "AAA333",
+        "productName": "Kakaopulver",
+        "pricePerKg": 59.99
+    },
+    {
+        "itemNumber": "AAA444",
+        "productName": "Mjölk",
+        "pricePerKg": 12.99
+    }
+]
