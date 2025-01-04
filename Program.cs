@@ -20,6 +20,7 @@ try{
     await Seed.LoadSuppliers(context);
     await Seed.LoadSupplierProducts(context);
     await Seed.LoadAddresses(context);
+    await Seed.LoadContactInformations(context);
 }catch(Exception ex){
     Console.WriteLine("{0}, ex.Message");
 }

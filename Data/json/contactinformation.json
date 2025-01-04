@@ -1,0 +1,20 @@
+[
+    {
+        "supplierId": 2,
+        "contactPerson": "Maximilian Lu",
+        "phoneNumber": "0724341411",
+        "email": "Max@gmail.com"
+    },
+    {
+        "supplierId": 1,
+        "contactPerson": "Olga Babkina",
+        "phoneNumber": "0744433322",
+        "email": "OlgaBab@gmail.com"
+    },
+    {
+        "supplierId": 3,
+        "contactPerson": "Anna Bååth",
+        "phoneNumber": "0743141177",
+        "email": "Anna@gmail.com"
+    }
+]
