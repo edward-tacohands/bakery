@@ -49,4 +49,19 @@ namespace bageri.api.Data;
                 await context.SaveChangesAsync();
             }
         }
+
+        public static async Task LoadAddresses(DataContext context){
+            var options = new JsonSerializerOptions{
+                PropertyNameCaseInsensitive = true
+            };
+
+            if(context.Addresses.Any()) return;
+
+            var json = File.ReadAllText("Data/json/addresses.json");
+            var addresses = JsonSerializer.Deserialize<List<Address>>(json, options);
+            if (addresses != null && addresses.Count > 0){
+                await context.Addresses.AddRangeAsync(addresses);
+                await context.SaveChangesAsync();
+            }
+        }
     }

@@ -19,6 +19,7 @@ try{
     await Seed.LoadProducts(context);
     await Seed.LoadSuppliers(context);
     await Seed.LoadSupplierProducts(context);
+    await Seed.LoadAddresses(context);
 }catch(Exception ex){
     Console.WriteLine("{0}, ex.Message");
 }

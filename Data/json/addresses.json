@@ -1,0 +1,20 @@
+[
+    {
+        "street": "Tessins väg",
+        "streetNumber": 18,
+        "postCode": "217 58",
+        "city": "Malmö"
+    },
+    {
+        "street": "Tobaksvägen",
+        "streetNumber": 10,
+        "postCode": "291 62",
+        "city": "Kristianstad"
+    },
+    {
+        "street": "Grand Avenue",
+        "streetNumber": 35,
+        "postCode": "BH6 3SY",
+        "city": "Bournemouth"
+    }
+]

@@ -154,3 +154,5 @@
 /Users/lueduardo/Jensen/assignment01/bageri.api/bin/Debug/net8.0/Data/json/products.json
 /Users/lueduardo/Jensen/assignment01/bageri.api/bin/Debug/net8.0/Data/json/suppliers.json
 /Users/lueduardo/Jensen/assignment01/bageri.api/bin/Debug/net8.0/Data/json/supplierProducts.json
+/Users/lueduardo/Jensen/assignment01/bageri.api/bin/Debug/net8.0/Data/json/addresses.json
+/Users/lueduardo/Jensen/assignment01/bageri.api/obj/Debug/net8.0/bageri.api.sourcelink.json
