@@ -3238,11 +3238,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/lueduardo/Jensen/assignment01/bageri.api/bageri.api.csproj",
+      "projectUniqueName": "/Users/lueduardo/Jensen/assignment01 copy 2/bageri.api/bageri.api.csproj",
       "projectName": "bageri.api",
-      "projectPath": "/Users/lueduardo/Jensen/assignment01/bageri.api/bageri.api.csproj",
+      "projectPath": "/Users/lueduardo/Jensen/assignment01 copy 2/bageri.api/bageri.api.csproj",
       "packagesPath": "/Users/lueduardo/.nuget/packages/",
-      "outputPath": "/Users/lueduardo/Jensen/assignment01/bageri.api/obj/",
+      "outputPath": "/Users/lueduardo/Jensen/assignment01 copy 2/bageri.api/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/lueduardo/.nuget/NuGet/NuGet.Config"

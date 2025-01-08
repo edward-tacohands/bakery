@@ -6,5 +6,7 @@ namespace bageri.api.Entities
         public string ContactPerson { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
+        public Supplier Supplier { get; set; }
+
     }
 }

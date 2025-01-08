@@ -7,5 +7,7 @@ namespace bageri.api.Entities
         public int StreetNumber { get; set; }
         public string PostCode { get; set; }
         public string City { get; set; }
+        public SupplierAddress SupplierAddress { get; set; }
+
     }
 }

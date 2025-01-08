@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "VFCHVGWUJ7I=",
+  "dgSpecHash": "Ld77cr9+Wjk=",
   "success": true,
-  "projectFilePath": "/Users/lueduardo/Jensen/assignment01/bageri.api/bageri.api.csproj",
+  "projectFilePath": "/Users/lueduardo/Jensen/assignment01 copy 2/bageri.api/bageri.api.csproj",
   "expectedPackageFiles": [
     "/Users/lueduardo/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/lueduardo/.nuget/packages/microsoft.bcl.asyncinterfaces/7.0.0/microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",

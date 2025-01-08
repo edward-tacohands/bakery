@@ -10,8 +10,8 @@ using bageri.api.Data;
 namespace bageri.api.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250104165646_created addresses")]
-    partial class createdaddresses
+    [Migration("20250105184440_Added json data")]
+    partial class Addedjsondata
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,6 +40,25 @@ namespace bageri.api.Data.Migrations
                     b.HasKey("AddressId");
 
                     b.ToTable("Addresses");
+                });
+
+            modelBuilder.Entity("bageri.api.Entities.ContactInformation", b =>
+                {
+                    b.Property<int>("SupplierId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ContactPerson")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("SupplierId");
+
+                    b.ToTable("ContactInformations");
                 });
 
             modelBuilder.Entity("bageri.api.Entities.Product", b =>
@@ -76,6 +95,25 @@ namespace bageri.api.Data.Migrations
                     b.ToTable("Suppliers");
                 });
 
+            modelBuilder.Entity("bageri.api.Entities.SupplierAddress", b =>
+                {
+                    b.Property<int>("SupplierId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("AddressId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("SupplierId", "AddressId");
+
+                    b.HasIndex("AddressId")
+                        .IsUnique();
+
+                    b.HasIndex("SupplierId")
+                        .IsUnique();
+
+                    b.ToTable("SupplierAddresses");
+                });
+
             modelBuilder.Entity("bageri.api.Entities.SupplierProduct", b =>
                 {
                     b.Property<int>("ProductId")
@@ -89,6 +127,36 @@ namespace bageri.api.Data.Migrations
                     b.HasIndex("SupplierId");
 
                     b.ToTable("SupplierProducts");
+                });
+
+            modelBuilder.Entity("bageri.api.Entities.ContactInformation", b =>
+                {
+                    b.HasOne("bageri.api.Entities.Supplier", "Supplier")
+                        .WithOne("ContactInformation")
+                        .HasForeignKey("bageri.api.Entities.ContactInformation", "SupplierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Supplier");
+                });
+
+            modelBuilder.Entity("bageri.api.Entities.SupplierAddress", b =>
+                {
+                    b.HasOne("bageri.api.Entities.Address", "Address")
+                        .WithOne("SupplierAddress")
+                        .HasForeignKey("bageri.api.Entities.SupplierAddress", "AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("bageri.api.Entities.Supplier", "Supplier")
+                        .WithOne("SupplierAddress")
+                        .HasForeignKey("bageri.api.Entities.SupplierAddress", "SupplierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Address");
+
+                    b.Navigation("Supplier");
                 });
 
             modelBuilder.Entity("bageri.api.Entities.SupplierProduct", b =>
@@ -110,6 +178,11 @@ namespace bageri.api.Data.Migrations
                     b.Navigation("Supplier");
                 });
 
+            modelBuilder.Entity("bageri.api.Entities.Address", b =>
+                {
+                    b.Navigation("SupplierAddress");
+                });
+
             modelBuilder.Entity("bageri.api.Entities.Product", b =>
                 {
                     b.Navigation("SupplierProducts");
@@ -117,6 +190,10 @@ namespace bageri.api.Data.Migrations
 
             modelBuilder.Entity("bageri.api.Entities.Supplier", b =>
                 {
+                    b.Navigation("ContactInformation");
+
+                    b.Navigation("SupplierAddress");
+
                     b.Navigation("SupplierProducts");
                 });
 #pragma warning restore 612, 618
