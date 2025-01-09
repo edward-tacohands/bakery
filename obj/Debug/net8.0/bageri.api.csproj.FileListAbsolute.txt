@@ -318,3 +318,8 @@
 /Users/lueduardo/Jensen/assignment01 copy 2/bageri.api/obj/Debug/net8.0/bageri.api.pdb
 /Users/lueduardo/Jensen/assignment01 copy 2/bageri.api/obj/Debug/net8.0/bageri.api.genruntimeconfig.cache
 /Users/lueduardo/Jensen/assignment01 copy 2/bageri.api/obj/Debug/net8.0/ref/bageri.api.dll
+/Users/lueduardo/Jensen/assignment01 copy 2/bageri.api/bin/Debug/net8.0/Microsoft.OpenApi.dll
+/Users/lueduardo/Jensen/assignment01 copy 2/bageri.api/bin/Debug/net8.0/Swashbuckle.AspNetCore.Swagger.dll
+/Users/lueduardo/Jensen/assignment01 copy 2/bageri.api/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/Users/lueduardo/Jensen/assignment01 copy 2/bageri.api/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+/Users/lueduardo/Jensen/assignment01 copy 2/bageri.api/obj/Debug/net8.0/bageri.api.MvcApplicationPartsAssemblyInfo.cs
