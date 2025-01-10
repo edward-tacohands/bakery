@@ -31,7 +31,7 @@ try{
     await Seed.LoadSupplierAddresses(context);
     
 }catch(Exception ex){
-    Console.WriteLine("{0}, ex.Message");
+    Console.WriteLine("{0}", ex.Message);
 }
 
 app.MapControllers();

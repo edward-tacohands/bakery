@@ -5,9 +5,6 @@ using bageri.api.Entities;
 using bageri.api.ViewModels;
 
 namespace bageri.api.Controllers;
-
-
-
     [ApiController]
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
@@ -41,7 +38,6 @@ namespace bageri.api.Controllers;
                 .ToListAsync();
 
             return Ok(new { success = true, data = result });
-
         }
 
         [HttpGet("{id}")]
