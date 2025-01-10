@@ -47,7 +47,12 @@ namespace bageri.api.Controllers
                         })
                 })
                 .ToListAsync();
-                return Ok(new { success = true, data = result});
+
+                if(result.Any()){
+                    return Ok(new { success = true, data = result});
+                } else{
+                    return NotFound( new { success = false, message = $"Leverantören med namnet: {name} kunde inte hittas"});
+                }
         }
     }
 }
