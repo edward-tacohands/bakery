@@ -118,7 +118,7 @@ namespace bageri.api.Controllers;
                 .Where(sp => sp.SupplierId == supplierId && sp.Product.ItemNumber == model.ItemNumber)
                 .FirstOrDefaultAsync();
             if (exists != null){
-                return BadRequest( new { success = false, message = $"Produkten med artikelnumret {model.ItemNumber} fanns redan registrerat hos leverantören"});
+                return BadRequest( new { success = false, message = $"Produkten med artikelnumret {model.ItemNumber} finns redan registrerat hos leverantören"});
             }
 
             var product = new Product{
