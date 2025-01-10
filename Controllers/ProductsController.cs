@@ -39,10 +39,26 @@ namespace bageri.api.Controllers;
                         })
                 })
                 .ToListAsync();
+
             return Ok(new { success = true, data = result });
+
         }
 
-        [HttpGet("{name}")]
+        [HttpGet("{id}")]
+        public async Task<ActionResult> FindProduct(int id){
+            var result = await _context.Products
+                .SingleOrDefaultAsync(p => p.ProductId == id);
+
+            if( result != null){
+                return Ok(new { success = true, data = result });
+            }
+            else{
+                return NotFound( new { success = false, message = $"Ingen produkt med id {id} kunde hittas"});
+            }
+        }
+
+
+        [HttpGet("productname/{name}")]
         public async Task<ActionResult> FindProductByName(string name)
         {
             var result = await _context.Products
@@ -65,7 +81,12 @@ namespace bageri.api.Controllers;
                         })
                 })
                 .ToListAsync();
-                return Ok(new { success = true, data = result});
+
+                if ( result != null){
+                    return Ok(new { success = true, data = result});
+                }else {
+                    return NotFound( new { success = false, message = $"Ingen produkt med namnet: {name} kunde hittas"});
+                }
         }
 
         [HttpPost("AddProduct/{supplierId}")]
@@ -73,6 +94,7 @@ namespace bageri.api.Controllers;
             var nsp = await _context.Suppliers
                 .Include(sp => sp.SupplierProducts)
                 .FirstOrDefaultAsync( sp => sp.SupplierId == supplierId);
+        
 
             var product = new Product{
                 ItemNumber = model.ItemNumber,
@@ -91,7 +113,13 @@ namespace bageri.api.Controllers;
             await _context.SupplierProducts.AddAsync(supplierProduct);
             await _context.SaveChangesAsync();
 
-            return Ok(new { success = true});
+            return CreatedAtAction(nameof(FindProduct), new { id = product.ProductId}, new {
+                product.ItemNumber,
+                product.ProductName,
+                Supplier = new {
+                    SupplierName = supplierProduct.Supplier.Name
+                }
+            });   
         }
 
         [HttpPatch("{id}/{price}")]

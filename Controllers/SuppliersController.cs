@@ -23,8 +23,8 @@ namespace bageri.api.Controllers
                     SupplierName = s.Name,
                     ProductInformation = s.SupplierProducts
                         .Select(sp => new{
-                            ProductName = sp.Product.ProductName,
-                            PricePerKg = sp.Product.PricePerKg
+                            sp.Product.ProductName,
+                            sp.Product.PricePerKg
                         })
                 })
                 .ToListAsync();
@@ -41,9 +41,9 @@ namespace bageri.api.Controllers
                     SupplierName = s.Name,
                     ProductInformation = s.SupplierProducts
                         .Select(sp => new{
-                            ItemNumber = sp.Product.ItemNumber,
-                            ProductName = sp.Product.ProductName,
-                            PricePerKg = sp.Product.PricePerKg
+                            sp.Product.ItemNumber,
+                            sp.Product.ProductName,
+                            sp.Product.PricePerKg
                         })
                 })
                 .ToListAsync();
