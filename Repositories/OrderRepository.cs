@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using bageri.api.Data;
 using bageri.api.Entities;
 using bageri.api.Interfaces;
+using bageri.api.ViewModels.Address;
 using bageri.api.ViewModels.Orders;
 using Microsoft.EntityFrameworkCore;
 
@@ -62,7 +63,7 @@ public class OrderRepository : IOrderRepository
                 deliveryAddress = new Address
                 {
                     AddressLine = model.DeliveryAddress.Trim(),
-                    AddressTypeId = 1,
+                    AddressTypeId = (int)AddressTypeEnum.Delivery,
                     PostalAddress = deliveryPostalAddress
                 };
                 await _context.Addresses.AddAsync(deliveryAddress);
@@ -73,7 +74,7 @@ public class OrderRepository : IOrderRepository
                 invoiceAddress = new Address
                 {
                     AddressLine = model.InvoiceAddress.Trim(),
-                    AddressTypeId = 3,
+                    AddressTypeId = (int)AddressTypeEnum.Invoice,
                     PostalAddress = invoicePostalAddress
                 };
                 await _context.Addresses.AddAsync(invoiceAddress);

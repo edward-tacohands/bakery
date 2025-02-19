@@ -6,6 +6,7 @@ using bageri.api.Data;
 using bageri.api.Entities;
 using bageri.api.Interfaces;
 using bageri.api.ViewModels;
+using bageri.api.ViewModels.ContactInformation;
 using Microsoft.EntityFrameworkCore;
 
 namespace bageri.api.Repositories;
@@ -50,5 +51,23 @@ public class ContactInformationRepository : IContactInformationRepository
 
         await _context.SaveChangesAsync();
         return contact;
+    }
+
+    public async Task<bool> Update(int id, UpdateContactInformationsViewModel model)
+    {
+        try
+        {
+            var cc = await _context.ContactInformations.FirstOrDefaultAsync(cc => cc.ContactInformationId == id);
+
+            cc.ContactPerson = model.ContactPerson;
+            cc.Email = model.Email;
+            cc.PhoneNumber = model.PhoneNumber;    
+            await _context.SaveChangesAsync(); 
+            return true;       
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
     }
 }

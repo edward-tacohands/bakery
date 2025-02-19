@@ -15,6 +15,7 @@ builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<IProductPreparationRepository, ProductPreparationRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IContactInformationRepository, ContactInformationRepository>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
