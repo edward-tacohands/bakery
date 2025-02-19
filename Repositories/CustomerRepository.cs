@@ -18,10 +18,10 @@ namespace bageri.api.Repositories;
 public class CustomerRepository : ICustomerRepository
 {
     private readonly DataContext _context;
-    private readonly IAddressRepository _aRepo;
-    public CustomerRepository(DataContext context, IAddressRepository aRepo)
+    private readonly IAddressRepository _repo;
+    public CustomerRepository(DataContext context, IAddressRepository repo)
     {
-        _aRepo = aRepo;
+        _repo = repo;
         _context = context;
         
     }
@@ -40,8 +40,6 @@ public class CustomerRepository : ICustomerRepository
 
         await _context.AddAsync(customer);
         await _context.SaveChangesAsync();
-
-        /***************************************************/
         
         var contact = await _context.ContactInformations.FirstOrDefaultAsync(c=> c.Email.ToLower().Trim() 
             == model.Contact.Email.ToLower().Trim());
@@ -73,7 +71,7 @@ public class CustomerRepository : ICustomerRepository
 
         foreach (var add in model.Addresses)
         {
-            var address = await _aRepo.Add(add);
+            var address = await _repo.Add(add);
 
             await _context.CustomerAddresses.AddAsync(new CustomerAddress
             {
@@ -132,14 +130,9 @@ public class CustomerRepository : ICustomerRepository
             var orders = customer.CustomerOrders.Select(c => new BaseOrdersViewModel{
                 OrderNumber = c.Order.OrderNumber,
                 OrderDate = c.Order.OrderDate,
-                OrderProducts = c.Order.OrderProducts.Select(p => new OrderProductsViewModel{
+                BaseOrderProducts = c.Order.OrderProducts.Select(p => new BaseOrderProductsViewModel{
                     ProductName = p.Product.Name,
-                    QuantityOfPackages = p.QuantityOfPackages,
-                    PricePackage = p.Product.PricePackage,
-                    AmountInPackage = p.Product.AmountInPackage,
-                    PricePerPiece = p.Product.PricePackage / p.Product.AmountInPackage,
-                    QuantityOfPieces = p.Product.AmountInPackage * p.QuantityOfPackages,
-                    TotalPriceForProduct = p.Product.PricePackage * p.QuantityOfPackages
+                    QuantityOfPackages = p.QuantityOfPackages
                 }).ToList()
                 
             });

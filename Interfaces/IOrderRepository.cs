@@ -12,5 +12,6 @@ public interface IOrderRepository
     public Task<IList<ListOrdersViewModel>>List();
     public Task<ListOrdersViewModel>Find(string orderNumber);
     public Task<IList<ListOrdersViewModel>>Find(DateTime orderDate);
+    public Task<bool> Add(AddOrderViewModel model);
     
 }
