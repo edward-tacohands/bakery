@@ -11,8 +11,8 @@ using bageri.api.Data;
 namespace bageri.api.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250214075620_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250219095752_TestCreate")]
+    partial class TestCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

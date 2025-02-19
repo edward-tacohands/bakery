@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace bageri.api.ViewModels.Orders;
 
-public class OrdersViewModel
+public class BaseOrdersViewModel
 {
     public string OrderNumber { get; set; } 
     

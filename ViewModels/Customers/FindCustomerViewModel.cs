@@ -11,5 +11,5 @@ public class FindCustomerViewModel : BaseCustomerViewModel
 {
     public IList<AddressViewModel> Addresses { get; set; }
     public ContactInformationsViewModel Contact { get; set; }
-    public IList<OrdersViewModel> Orders { get; set; }
+    public IList<BaseOrdersViewModel> Orders { get; set; }
 }

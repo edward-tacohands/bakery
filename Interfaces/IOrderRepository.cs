@@ -9,6 +9,8 @@ namespace bageri.api.Interfaces;
 
 public interface IOrderRepository
 {
-    public Task<IList<OrdersViewModel>>List();
+    public Task<IList<ListOrdersViewModel>>List();
+    public Task<ListOrdersViewModel>Find(string orderNumber);
+    public Task<IList<ListOrdersViewModel>>Find(DateTime orderDate);
     
 }

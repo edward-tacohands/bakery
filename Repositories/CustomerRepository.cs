@@ -129,12 +129,17 @@ public class CustomerRepository : ICustomerRepository
                 PhoneNumber = customer.CustomerContactInformation.ContactInformation.PhoneNumber
             };
 
-            var orders = customer.CustomerOrders.Select(c => new OrdersViewModel{
+            var orders = customer.CustomerOrders.Select(c => new BaseOrdersViewModel{
                 OrderNumber = c.Order.OrderNumber,
                 OrderDate = c.Order.OrderDate,
                 OrderProducts = c.Order.OrderProducts.Select(p => new OrderProductsViewModel{
                     ProductName = p.Product.Name,
-                    QuantityOfPackages = p.QuantityOfPackages
+                    QuantityOfPackages = p.QuantityOfPackages,
+                    PricePackage = p.Product.PricePackage,
+                    AmountInPackage = p.Product.AmountInPackage,
+                    PricePerPiece = p.Product.PricePackage / p.Product.AmountInPackage,
+                    QuantityOfPieces = p.Product.AmountInPackage * p.QuantityOfPackages,
+                    TotalPriceForProduct = p.Product.PricePackage * p.QuantityOfPackages
                 }).ToList()
                 
             });

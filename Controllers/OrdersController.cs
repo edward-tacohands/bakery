@@ -31,39 +31,41 @@ public class OrdersController : ControllerBase
         return Ok(new { success = true, data = result });
     }
 
-    // [HttpGet("ordernumber/{orderNumber}")]
-    // public async Task<ActionResult> FindOrderByOrderNumber(string orderNumber)
-    // {
-    //     var order = await _context.Orders
-    //         .Where(o => o.OrderNumber.ToLower().Trim() == orderNumber.ToLower().Trim())
-    //         .Include(o => o.OrderProducts)
-    //         .Include(o => o.CustomerOrders)
-    //         .Select(o => new
-    //         {
-    //             Customer = o.CustomerOrders
-    //             .Select(o => new
-    //             {
-    //                 o.Customer.Name
-    //             }),
-    //             o.OrderNumber,
-    //             o.OrderDate,
-    //             OrderProduct = o.OrderProducts
-    //             .Select(o => new
-    //             {
-    //                 o.Product.Name,
-    //                 o.Product.PricePackage,
-    //                 o.Product.WeightInKg,
-    //                 o.QuantityOfPackages,
-    //                 QuantityOfPieces = o.QuantityOfPackages * o.Product.AmountInPackage,
-    //                 PricePerPiece = o.Product.PricePackage / o.Product.AmountInPackage,
-    //                 TotalPriceForProduct = o.Product.PricePackage * o.QuantityOfPackages
-    //             }),
-    //             TotalPriceForOrder = o.OrderProducts.Sum(op => op.Product.PricePackage * op.QuantityOfPackages)
-    //         })
-    //     .FirstOrDefaultAsync();
+    [HttpGet("ordernumber/{orderNumber}")]
+    public async Task<ActionResult> FindOrderByOrderNumber(string orderNumber)
+    {
+        // var order = await _context.Orders
+        //     .Where(o => o.OrderNumber.ToLower().Trim() == orderNumber.ToLower().Trim())
+        //     .Include(o => o.OrderProducts)
+        //     .Include(o => o.CustomerOrders)
+        //     .Select(o => new
+        //     {
+        //         Customer = o.CustomerOrders
+        //         .Select(o => new
+        //         {
+        //             o.Customer.Name
+        //         }),
+        //         o.OrderNumber,
+        //         o.OrderDate,
+        //         OrderProduct = o.OrderProducts
+        //         .Select(o => new
+        //         {
+        //             o.Product.Name,
+        //             o.Product.PricePackage,
+        //             o.Product.WeightInKg,
+        //             o.QuantityOfPackages,
+        //             QuantityOfPieces = o.QuantityOfPackages * o.Product.AmountInPackage,
+        //             PricePerPiece = o.Product.PricePackage / o.Product.AmountInPackage,
+        //             TotalPriceForProduct = o.Product.PricePackage * o.QuantityOfPackages
+        //         }),
+        //         TotalPriceForOrder = o.OrderProducts.Sum(op => op.Product.PricePackage * op.QuantityOfPackages)
+        //     })
+        // .FirstOrDefaultAsync();
 
-    //     return Ok(new { success = true, data = order });
-    // }
+        var result = await _repo.Find(orderNumber);
+        
+        return Ok(new { success = true, data = result });
+    }
 
     // [HttpGet("orderdate")]
     // public async Task<ActionResult> FindOrderByOrderDate([FromQuery] DateTime orderDate)
