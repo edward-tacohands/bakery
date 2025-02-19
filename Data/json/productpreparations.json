@@ -1,0 +1,37 @@
+[
+    {
+        "productId": 1,
+        "expiryDate": "2024-01-22",
+        "preparationDate": "2024-01-12"
+    },
+    {
+        "productId": 1,
+        "expiryDate": "2024-03-22",
+        "preparationDate": "2024-03-12"
+    },
+    {
+        "productId": 2,
+        "expiryDate": "2024-04-23",
+        "preparationDate": "2024-04-15"
+    },
+    {
+        "productId": 3,
+        "expiryDate": "2025-02-01",
+        "preparationDate": "2024-01-26"
+    },
+    {
+        "productId": 4,
+        "expiryDate": "2054-01-11",
+        "preparationDate": "2024-01-02"
+    },
+    {
+        "productId": 5,
+        "expiryDate": "2024-11-29",
+        "preparationDate": "2024-11-20"
+    },
+    {
+        "productId": 6,
+        "expiryDate": "2024-06-12",
+        "preparationDate": "2024-06-05"
+    }
+]

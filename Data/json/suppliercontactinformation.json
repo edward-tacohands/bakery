@@ -1,0 +1,14 @@
+[
+    {
+        "supplierId": 1,
+        "contactInformationId": 1
+    },
+    {
+        "supplierId": 2,
+        "contactInformationId": 2
+    },
+    {
+        "supplierId": 3,
+        "contactInformationId": 3
+    }
+]

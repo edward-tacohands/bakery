@@ -1,0 +1,47 @@
+[
+    {
+        "itemNumber": "AAA111",
+        "name": "Mjöl",
+        "pricePerKg": 10.99
+    },
+    {
+        "itemNumber": "AAA222",
+        "name": "Kakaopulver",
+        "pricePerKg": 59.99
+    },
+    {
+        "itemNumber": "AAA333",
+        "name": "Mjölk",
+        "pricePerKg": 12.99
+    },
+    {
+        "itemNumber": "BBB111",
+        "name": "Mjöl",
+        "pricePerKg": 13.99
+    },
+    {
+        "itemNumber": "BBB222",
+        "name": "Ägg",
+        "pricePerKg": 50.99
+    },
+    {
+        "itemNumber": "BBB333",
+        "name": "Havregryn",
+        "pricePerKg": 11.99
+    },
+    {
+        "itemNumber": "CCC111",
+        "name": "Kakaopulver",
+        "pricePerKg": 42.80
+    },
+    {
+        "itemNumber": "CCC222",
+        "name": "Mjöl",
+        "pricePerKg": 18.50
+    },
+    {
+        "itemNumber": "CCC333",
+        "name": "Kaffebönor",
+        "pricePerKg": 95.15
+    }
+]

@@ -6,6 +6,5 @@ namespace bageri.api.Entities
         public int AddressId { get; set; }
         public Supplier Supplier { get; set; }
         public Address Address { get; set; }
-
     }
 }

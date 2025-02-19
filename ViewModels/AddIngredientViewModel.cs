@@ -1,9 +1,9 @@
 namespace bageri.api.ViewModels
 {
-    public class AddProductViewModel
+    public class AddIngredientViewModel
     {
         public string ItemNumber { get; set; }
-        public string ProductName { get; set; }
+        public string Name { get; set; }
         public decimal PricePerKg { get; set; }
     }
 }

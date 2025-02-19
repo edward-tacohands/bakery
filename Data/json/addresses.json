@@ -1,20 +1,47 @@
 [
     {
-        "street": "Tessins väg",
-        "streetNumber": 18,
-        "postCode": "217 58",
-        "city": "Malmö"
+        "postalAddressId": 1,
+        "addressTypeId": 2,
+        "addressLine": "Tessins väg 18A"
     },
     {
-        "street": "Tobaksvägen",
-        "streetNumber": 10,
-        "postCode": "291 62",
-        "city": "Kristianstad"
+        "postalAddressId": 2,
+        "addressTypeId": 2,
+        "addressLine": "Tobaksvägen 10"
     },
     {
-        "street": "Grand Avenue",
-        "streetNumber": 35,
-        "postCode": "BH6 3SY",
-        "city": "Bournemouth"
+        "postalAddressId": 3,
+        "addressTypeId": 2,
+        "addressLine": "35 Grand Avenue"
+    },
+    {
+        "postalAddressId": 4,
+        "addressTypeId": 1,
+        "addressLine": "2 Langdale Gardens"
+    },
+    {
+        "postalAddressId": 4,
+        "addressTypeId": 3,
+        "addressLine": "2 Langdale Gardens"
+    },
+    {
+        "postalAddressId": 5,
+        "addressTypeId": 1,
+        "addressLine": "80 Stonebridge Park"
+    },
+    {
+        "postalAddressId": 5,
+        "addressTypeId": 3,
+        "addressLine": "80 Stonebridge Park"
+    },
+    {
+        "postalAddressId": 6,
+        "addressTypeId": 1,
+        "addressLine": "2 Colville Road"
+    },
+    {
+        "postalAddressId": 6,
+        "addressTypeId": 3,
+        "addressLine": "2 Colville Road"
     }
 ]

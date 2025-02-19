@@ -3,11 +3,13 @@ namespace bageri.api.Entities
     public class Address
     {
         public int AddressId { get; set; }
-        public string Street { get; set; }
-        public int StreetNumber { get; set; }
-        public string PostCode { get; set; }
-        public string City { get; set; }
-        public SupplierAddress SupplierAddress { get; set; }
+        public int PostalAddressId { get; set; }
+        public int AddressTypeId { get; set; }
+        public string AddressLine { get; set; }
+        public PostalAddress PostalAddress { get; set; }
+        public AddressType AddressType { get; set; }
+        public IList<SupplierAddress> SupplierAddresses { get; set; }
+        public IList<CustomerAddress> CustomerAddresses { get; set; }
 
     }
 }

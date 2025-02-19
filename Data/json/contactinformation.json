@@ -1,20 +1,32 @@
 [
     {
-        "supplierId": 2,
         "contactPerson": "Maximilian Lu",
         "phoneNumber": "0724341411",
-        "email": "Max@gmail.com"
+        "email": "max@gmail.com"
     },
     {
-        "supplierId": 1,
         "contactPerson": "Olga Babkina",
         "phoneNumber": "0744433322",
-        "email": "OlgaBab@gmail.com"
+        "email": "olbab@gmail.com"
     },
     {
-        "supplierId": 3,
         "contactPerson": "Anna Bååth",
         "phoneNumber": "0743141177",
-        "email": "Anna@gmail.com"
+        "email": "anna@gmail.com"
+    },
+    {
+        "contactPerson": "Ollie Samson",
+        "phoneNumber": "074142323",
+        "email": "ollie@gmail.com"
+    },
+    {
+        "contactPerson": "Georgina De La Cour",
+        "phoneNumber": "05111521",
+        "email": "georgie@gmail.com"
+    },
+    {
+        "contactPerson": "Joachim Cook",
+        "phoneNumber": "0753151513",
+        "email": "jojo@gmail.com"
     }
 ]

@@ -5,9 +5,8 @@ namespace bageri.api.Entities
         public int SupplierId { get; set; }
         public string Name { get; set; }
 
-        public IList<SupplierProduct> SupplierProducts { get; set; }
-        public ContactInformation ContactInformation { get; set; }
-        public SupplierAddress SupplierAddress { get; set; }
-        
+        public IList<SupplierIngredient> SupplierIngredients { get; set; }
+        public IList<SupplierAddress> SupplierAddresses { get; set; }
+        public SupplierContactInformation SupplierContactInformation { get; set; }
     }
 }

@@ -1,10 +1,12 @@
 using bageri.api.Data;
+using bageri.api.Entities;
+using bageri.api.ViewModels.Customers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace bageri.api.Controllers
-{
+namespace bageri.api.Controllers;
+
     [ApiController]
     [Route("api/[controller]")]
     public class SuppliersController : ControllerBase
@@ -16,15 +18,15 @@ namespace bageri.api.Controllers
         }
 
         [HttpGet()]
-        public async Task<ActionResult> ListSuppliers(){
+        public async Task<ActionResult>ListSuppliers(){
             var result = await _context.Suppliers
-                .Include(s => s.SupplierProducts)
+                .Include(s => s.SupplierIngredients)
                 .Select(s => new{
                     SupplierName = s.Name,
-                    ProductInformation = s.SupplierProducts
+                    IngredientInformation = s.SupplierIngredients
                         .Select(sp => new{
-                            sp.Product.ProductName,
-                            sp.Product.PricePerKg
+                            sp.Ingredient.Name,
+                            sp.Ingredient.PricePerKg
                         })
                 })
                 .ToListAsync();
@@ -33,17 +35,17 @@ namespace bageri.api.Controllers
         }
 
         [HttpGet("{name}")]
-        public async Task<ActionResult> FindSupplierByName(string name){
+        public async Task<ActionResult>FindSupplierByName(string name){
             var result = await _context.Suppliers
                 .Where(s => s.Name.ToLower() == name.ToLower())
-                .Include(s => s.SupplierProducts)
+                .Include(s => s.SupplierIngredients)
                 .Select(s => new{
                     SupplierName = s.Name,
-                    ProductInformation = s.SupplierProducts
+                    IngredientInformation = s.SupplierIngredients
                         .Select(sp => new{
-                            sp.Product.ItemNumber,
-                            sp.Product.ProductName,
-                            sp.Product.PricePerKg
+                            sp.Ingredient.ItemNumber,
+                            sp.Ingredient.Name,
+                            sp.Ingredient.PricePerKg
                         })
                 })
                 .ToListAsync();
@@ -54,5 +56,8 @@ namespace bageri.api.Controllers
                     return NotFound( new { success = false, message = $"Leverantören med namnet: {name} kunde inte hittas"});
                 }
         }
+
+        
+
+
     }
-}

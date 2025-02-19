@@ -1,0 +1,14 @@
+[
+    {
+        "customerId": 1,
+        "contactInformationId": 4
+    },
+    {
+        "customerId": 2,
+        "contactInformationId": 5
+    },
+    {
+        "customerId": 3,
+        "contactInformationId": 6
+    }
+]
