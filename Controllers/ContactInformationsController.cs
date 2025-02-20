@@ -17,7 +17,6 @@ public class ContactInformationsController : ControllerBase
     public ContactInformationsController(IContactInformationRepository repo)
     {
         _repo = repo;
-        
     }
 
     [HttpPatch("{id}")]
