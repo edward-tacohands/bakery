@@ -15,39 +15,27 @@ namespace bageri.api.Controllers;
 [Route("api/[controller]")]
 public class ProductPreparationController : ControllerBase
 {
-    private readonly IProductPreparationRepository _repo;
     
-    public ProductPreparationController(IProductPreparationRepository repo)
+    private readonly IUnitOfWork _unitOfWork;
+    
+    public ProductPreparationController(IUnitOfWork unitOfWork)
     {
-        _repo = repo;
+        _unitOfWork = unitOfWork;
         
     }
 
     [HttpPost()]
     public async Task<ActionResult>AddNewBatchOfProduct(NewBatchViewModel model)
     {
-        // if(await _context.Products.FirstOrDefaultAsync(p=> p.ProductId == model.ProductId) is null)
-        // {
-        //     return BadRequest(new{success = false, message =$"Produkten med {model.ProductId} finns inte i systemet"});
-        // }
-        
-        // var newBatch = new ProductPreparation
-        // {
-        //     ProductId = model.ProductId,
-        //     ExpiryDate = model.ExpiryDate,
-        //     PreparationDate = model.PreparationDate
-        // };
-
-        // await _context.ProductPreparations.AddAsync(newBatch);
-        // await _context.SaveChangesAsync();
-
-        var newBatch = await _repo.Add(model);
-        if(newBatch)
+        if(await _unitOfWork.ProductPreparationRepository.Add(model))
         {
+            if(_unitOfWork.HasChanges())
+            {
+                await _unitOfWork.Complete();
+            }
             return StatusCode(201);
         }
-        else
-        {
+        else{
             return BadRequest();
         }
     }

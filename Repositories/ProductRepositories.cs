@@ -98,7 +98,6 @@ public class ProductRepositories : IProductRepository
         }
         prod.PricePackage = price;
 
-        await _context.SaveChangesAsync();
-        return true;
+        return await _context.SaveChangesAsync() >0;
     }
 }

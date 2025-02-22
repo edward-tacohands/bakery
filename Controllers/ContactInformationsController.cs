@@ -13,23 +13,28 @@ namespace bageri.api.Controllers;
 [Route("api/[controller]")]
 public class ContactInformationsController : ControllerBase
 {
-    private readonly IContactInformationRepository _repo;
-    public ContactInformationsController(IContactInformationRepository repo)
+    private readonly IUnitOfWork _unitOfWork;
+    
+    public ContactInformationsController(IUnitOfWork unitOfWork)
     {
-        _repo = repo;
+        _unitOfWork = unitOfWork;
+        
     }
 
     [HttpPatch("{id}")]
     public async Task<ActionResult> Update(int id, UpdateContactInformationsViewModel model)
     {
-        var result = await _repo.Update(id, model);
-        if (result)
+        if(await _unitOfWork.ContactInformationRepository.Update(id, model))
         {
+            if(_unitOfWork.HasChanges())
+            {
+                await _unitOfWork.Complete();
+            }
             return StatusCode(204);
         }
-        else
-        {
+        else{
             return BadRequest();
         }
+        
     }
 }

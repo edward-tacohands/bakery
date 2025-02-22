@@ -33,8 +33,6 @@ public class ProductPreparationRepository : IProductPreparationRepository
         };
 
         await _context.ProductPreparations.AddAsync(newBatch);
-        await _context.SaveChangesAsync();
-
-        return true;
+        return await _context.SaveChangesAsync() >0;
     }
 }

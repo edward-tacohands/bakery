@@ -13,7 +13,6 @@ public interface IUnitOfWork
     IOrderRepository OrderRepository { get; }
     IProductPreparationRepository ProductPreparationRepository { get; }
     IProductRepository ProductRepository { get; }
-    ISupplierRepository SupplierRepository { get; }
 
     Task <bool> Complete ();
     bool HasChanges();

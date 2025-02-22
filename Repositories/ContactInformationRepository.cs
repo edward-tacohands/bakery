@@ -62,8 +62,7 @@ public class ContactInformationRepository : IContactInformationRepository
             cc.ContactPerson = model.ContactPerson;
             cc.Email = model.Email;
             cc.PhoneNumber = model.PhoneNumber;    
-            await _context.SaveChangesAsync(); 
-            return true;       
+            return await _context.SaveChangesAsync() >0;      
         }
         catch (Exception ex)
         {

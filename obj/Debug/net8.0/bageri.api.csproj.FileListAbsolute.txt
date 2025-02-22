@@ -670,3 +670,5 @@
 /Users/lueduardo/Jensen/cSharp-Forts/Inlämning del2/bageri.api/obj/Debug/net8.0/bageri.api.csproj.Up2Date
 /Users/lueduardo/Jensen/cSharp-Forts/Inlämning del2/bageri.api/obj/Debug/net8.0/bageri.api.genruntimeconfig.cache
 /Users/lueduardo/Jensen/cSharp-Forts/Inlämning del2/bageri.api/obj/Debug/net8.0/ref/bageri.api.dll
+/Users/lueduardo/Jensen/cSharp-Forts/Inlämning del2/bageri.api/bin/Debug/net8.0/MySqlConnector.dll
+/Users/lueduardo/Jensen/cSharp-Forts/Inlämning del2/bageri.api/bin/Debug/net8.0/Pomelo.EntityFrameworkCore.MySql.dll

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using bageri.api.Data;
 using bageri.api.Entities;
+using bageri.api.Interfaces;
 using bageri.api.ViewModels.Product;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,16 +15,18 @@ namespace bageri.api.Controllers;
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
 {
-    private readonly IProductRepository _repo;
-    public ProductsController(IProductRepository repo)
+    private readonly IUnitOfWork _unitOfWork;
+
+    public ProductsController(IUnitOfWork unitOfWork)
     {
-        _repo = repo;
+        _unitOfWork = unitOfWork;
+        
     }
 
     [HttpGet()]
     public async Task<ActionResult>ListAllProducts()
     {
-        return Ok(new{success = true, data = await _repo.ListAllProducts()});
+        return Ok(new{success = true, data = await _unitOfWork.ProductRepository.ListAllProducts()});
     }
 
     [HttpGet("{id}")]
@@ -32,7 +35,7 @@ public class ProductsController : ControllerBase
 
         try
         {
-            return Ok(new{success = true, data = await _repo.FindProduct(id)});
+            return Ok(new{success = true, data = await _unitOfWork.ProductRepository.FindProduct(id)});
         }
         catch (Exception ex)
         {
@@ -43,13 +46,15 @@ public class ProductsController : ControllerBase
     [HttpPost()]
     public async Task<ActionResult>AddProduct(AddProductViewModel model)
     {
-        var product = await _repo.AddProduct(model);
-        if(product)
+        if(await _unitOfWork.ProductRepository.AddProduct(model))
         {
-            return StatusCode (201);
+            if(_unitOfWork.HasChanges())
+            {
+                await _unitOfWork.Complete();
+            }
+            return StatusCode(201);
         }
-        else
-        {
+        else{
             return BadRequest();
         }
     }
@@ -57,14 +62,15 @@ public class ProductsController : ControllerBase
     [HttpPatch("{id}/{price}")]
     public async Task<ActionResult>UpdateProductPrice(int id, decimal price)
     {
-        var newPrice = await _repo.Update(id, price);
-
-        if(newPrice)
+        if(await _unitOfWork.ProductRepository.Update(id, price))
         {
+            if(_unitOfWork.HasChanges())
+            {
+                await _unitOfWork.Complete();
+            }
             return StatusCode(204);
         }
-        else
-        {
+        else{
             return BadRequest();
         }
     }

@@ -19,17 +19,15 @@ public class UnitOfWork : IUnitOfWork
 
     public IAddressRepository AddressRepository => new AddressRepository(_context);
 
-    public IContactInformationRepository ContactInformationRepository => throw new NotImplementedException();
+    public IContactInformationRepository ContactInformationRepository => new ContactInformationRepository(_context);
 
-    public ICustomerRepository CustomerRepository => throw new NotImplementedException();
+    public ICustomerRepository CustomerRepository => new CustomerRepository(_context, _repo);
 
-    public IOrderRepository OrderRepository => throw new NotImplementedException();
+    public IOrderRepository OrderRepository => new OrderRepository(_context);
 
-    public IProductPreparationRepository ProductPreparationRepository => throw new NotImplementedException();
+    public IProductPreparationRepository ProductPreparationRepository => new ProductPreparationRepository(_context);
 
-    public IProductRepository ProductRepository => throw new NotImplementedException();
-
-    public ISupplierRepository SupplierRepository => throw new NotImplementedException();
+    public IProductRepository ProductRepository => new ProductRepositories(_context);
 
     public async Task<bool> Complete()
     {

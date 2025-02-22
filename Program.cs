@@ -6,16 +6,19 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var serverVersion = new MySqlServerVersion(new Version(9, 1, 0));
 builder.Services.AddDbContext<DataContext>(options => {
-    options.UseSqlite(builder.Configuration.GetConnectionString("DevConnection"));
+    // options.UseSqlite(builder.Configuration.GetConnectionString("DevConnection"));
+    options.UseMySql(builder.Configuration.GetConnectionString("MySQL"), serverVersion);
 });
 
-builder.Services.AddScoped<IProductRepository, ProductRepositories>();
-builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+//builder.Services.AddScoped<IProductRepository, ProductRepositories>();
+//builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
-builder.Services.AddScoped<IProductPreparationRepository, ProductPreparationRepository>();
-builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-builder.Services.AddScoped<IContactInformationRepository, ContactInformationRepository>();
+// builder.Services.AddScoped<IProductPreparationRepository, ProductPreparationRepository>();
+// builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+// builder.Services.AddScoped<IContactInformationRepository, ContactInformationRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -23,10 +26,10 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-if(app.Environment.IsDevelopment()){
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;

@@ -16,28 +16,30 @@ namespace bageri.api.Controllers;
 [Route("api/[controller]")]
 public class CustomersController : ControllerBase
 {
-    private readonly ICustomerRepository _repo;
     
-    public CustomersController(ICustomerRepository repo)
+    private readonly IUnitOfWork _unitOfWork;
+    
+    public CustomersController(IUnitOfWork unitOfWork)
     {
-            _repo = repo;
+        _unitOfWork = unitOfWork;
+            
        
     }
 
     [HttpGet()]
     public async Task<ActionResult>ListAllCustomers(){
 
-        var customers = await _repo.List();
+        var customers = await _unitOfWork.CustomerRepository.List();
 
         return Ok(new{success = true, data = customers});
     }
 
-    [HttpGet("{id}")]
+   [HttpGet("{id}")]
     public async Task<ActionResult>FindCustomer(int id){
 
         try
         {
-            return Ok(new{success = true, data = await _repo.Find(id)});
+            return Ok(new{success = true, data = await _unitOfWork.CustomerRepository.Find(id)});
         }
         catch (Exception ex)
         {
@@ -48,15 +50,18 @@ public class CustomersController : ControllerBase
     [HttpPost()]
     public async Task<ActionResult>AddCustomer(AddCustomerForRepositoryViewModel model)
     {
-        var result = await _repo.Add(model);
-        if(result)
-        {
+       if(await _unitOfWork.CustomerRepository.Add(model))
+       {
+            if(_unitOfWork.HasChanges())
+            {
+                await _unitOfWork.Complete();
+            }
             return StatusCode(201);
-        }
-        else
-        {
+       }
+       else
+       {
             return BadRequest();
-        }
+       }
     }
 
   

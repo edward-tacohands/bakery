@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "fVauVLMxX0s=",
+  "dgSpecHash": "hZprqVjTVlM=",
   "success": true,
-  "projectFilePath": "/Users/lueduardo/Jensen/cSharp-Forts/Inlämning del2/bageri.api/bageri.api.csproj",
+  "projectFilePath": "/Users/lueduardo/Jensen/cSharp-Forts/Inlämning del2/bageri.api/bageri.api.csproj",
   "expectedPackageFiles": [
     "/Users/lueduardo/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/lueduardo/.nuget/packages/microsoft.bcl.asyncinterfaces/7.0.0/microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",
@@ -36,6 +36,8 @@
     "/Users/lueduardo/.nuget/packages/microsoft.extensions.primitives/9.0.0/microsoft.extensions.primitives.9.0.0.nupkg.sha512",
     "/Users/lueduardo/.nuget/packages/microsoft.openapi/1.6.22/microsoft.openapi.1.6.22.nupkg.sha512",
     "/Users/lueduardo/.nuget/packages/mono.texttemplating/3.0.0/mono.texttemplating.3.0.0.nupkg.sha512",
+    "/Users/lueduardo/.nuget/packages/mysqlconnector/2.4.0/mysqlconnector.2.4.0.nupkg.sha512",
+    "/Users/lueduardo/.nuget/packages/pomelo.entityframeworkcore.mysql/9.0.0-preview.2.efcore.9.0.0/pomelo.entityframeworkcore.mysql.9.0.0-preview.2.efcore.9.0.0.nupkg.sha512",
     "/Users/lueduardo/.nuget/packages/sqlitepclraw.bundle_e_sqlite3/2.1.10/sqlitepclraw.bundle_e_sqlite3.2.1.10.nupkg.sha512",
     "/Users/lueduardo/.nuget/packages/sqlitepclraw.core/2.1.10/sqlitepclraw.core.2.1.10.nupkg.sha512",
     "/Users/lueduardo/.nuget/packages/sqlitepclraw.lib.e_sqlite3/2.1.10/sqlitepclraw.lib.e_sqlite3.2.1.10.nupkg.sha512",

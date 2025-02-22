@@ -149,8 +149,7 @@ public class OrderRepository : IOrderRepository
             });
         }
 
-        await _context.SaveChangesAsync();
-        return true;
+        return await _context.SaveChangesAsync() >0;
     }
 
     public async Task<ListOrdersViewModel> Find(string orderNumber)

@@ -80,9 +80,8 @@ public class CustomerRepository : ICustomerRepository
             });
         }
 
-        await _context.SaveChangesAsync();
+        return await _context.SaveChangesAsync() >0;
 
-        return true;
     }
 
     public async Task<FindCustomerViewModel> Find(int id)

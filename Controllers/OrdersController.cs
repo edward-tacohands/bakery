@@ -15,17 +15,19 @@ namespace bageri.api.Controllers;
 [Route("api/[controller]")]
 public class OrdersController : ControllerBase
 {
-    private readonly IOrderRepository _repo;
     
-    public OrdersController(IOrderRepository repo)
+    private readonly IUnitOfWork _unitOfWork;
+    
+    public OrdersController(IUnitOfWork unitOfWork)
     {
-        _repo = repo;
+        _unitOfWork = unitOfWork;
+        
     }
 
     [HttpGet()]
     public async Task<ActionResult> ListAllOrders()
     {
-        var result = await _repo.List();
+        var result = await _unitOfWork.OrderRepository.List();
 
         return Ok(new { success = true, data = result });
     }
@@ -33,7 +35,7 @@ public class OrdersController : ControllerBase
     [HttpGet("ordernumber/{orderNumber}")]
     public async Task<ActionResult> FindOrderByOrderNumber(string orderNumber)
     {
-        var result = await _repo.Find(orderNumber);
+        var result = await _unitOfWork.OrderRepository.Find(orderNumber);
 
         return Ok(new { success = true, data = result });
     }
@@ -42,7 +44,7 @@ public class OrdersController : ControllerBase
     public async Task<ActionResult> FindOrderByOrderDate([FromQuery] DateTime orderDate)
     {
         
-        var result = await _repo.Find(orderDate);
+        var result = await _unitOfWork.OrderRepository.Find(orderDate);
 
         return Ok(new { success = true, data = result });
     }
@@ -50,12 +52,15 @@ public class OrdersController : ControllerBase
     [HttpPost()]
     public async Task<ActionResult> AddOrder(AddOrderViewModel model)
     {
-        var result = await _repo.Add(model);
-        if (result)
+        if(await _unitOfWork.OrderRepository.Add(model))
         {
+            if(_unitOfWork.HasChanges())
+            {
+                await _unitOfWork.Complete();
+            }
             return StatusCode(201);
-        }else
-        {
+        }
+        else{
             return BadRequest();
         }
         
