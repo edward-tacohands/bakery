@@ -7,7 +7,6 @@ namespace bageri.api.ViewModels;
 
 public class BaseCustomerViewModel
 {
-    public int CustomerId { get; set; }
-    public string Name { get; set; }
+    public string CustomerName { get; set; }
 
 }

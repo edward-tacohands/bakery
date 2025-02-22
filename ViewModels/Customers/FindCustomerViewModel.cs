@@ -9,6 +9,7 @@ namespace bageri.api.ViewModels.Customers;
 
 public class FindCustomerViewModel : BaseCustomerViewModel
 {
+    public int CustomerId { get; set; }
     public IList<AddressViewModel> Addresses { get; set; }
     public ContactInformationsViewModel Contact { get; set; }
     public IList<BaseOrdersViewModel> Orders { get; set; }

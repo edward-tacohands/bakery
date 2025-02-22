@@ -8,6 +8,7 @@ using bageri.api.Interfaces;
 using bageri.api.ViewModels.Product;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SQLitePCL;
 
 namespace bageri.api.Controllers;
 
@@ -26,7 +27,14 @@ public class ProductsController : ControllerBase
     [HttpGet()]
     public async Task<ActionResult>ListAllProducts()
     {
-        return Ok(new{success = true, data = await _unitOfWork.ProductRepository.ListAllProducts()});
+        try
+        {
+            return Ok(new{success = true, data = await _unitOfWork.ProductRepository.ListAllProducts()});
+        }
+        catch (Exception ex)
+        {
+            return NotFound(new{success = false, message = $"Gick inte att hitta produkter {ex.Message}"});
+        }
     }
 
     [HttpGet("{id}")]
@@ -46,33 +54,48 @@ public class ProductsController : ControllerBase
     [HttpPost()]
     public async Task<ActionResult>AddProduct(AddProductViewModel model)
     {
-        if(await _unitOfWork.ProductRepository.AddProduct(model))
+        try
         {
-            if(_unitOfWork.HasChanges())
+            if(await _unitOfWork.ProductRepository.AddProduct(model))
             {
-                await _unitOfWork.Complete();
+                if(_unitOfWork.HasChanges())
+                {
+                    await _unitOfWork.Complete();
+                }
+                return StatusCode(201);
             }
-            return StatusCode(201);
+            else{
+                return BadRequest();
+            }            
         }
-        else{
-            return BadRequest();
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
         }
     }
 
     [HttpPatch("{id}/{price}")]
     public async Task<ActionResult>UpdateProductPrice(int id, decimal price)
     {
-        if(await _unitOfWork.ProductRepository.Update(id, price))
+        try
         {
-            if(_unitOfWork.HasChanges())
+            if(await _unitOfWork.ProductRepository.Update(id, price))
             {
-                await _unitOfWork.Complete();
+                if(_unitOfWork.HasChanges())
+                {
+                    await _unitOfWork.Complete();
+                }
+                return StatusCode(204);
             }
-            return StatusCode(204);
+            else{
+                return BadRequest();
+            }
         }
-        else{
-            return BadRequest();
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
         }
+ 
     }
     
 }

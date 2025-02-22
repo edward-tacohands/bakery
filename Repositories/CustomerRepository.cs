@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using bageri.api.Data;
 using bageri.api.Entities;
+using bageri.api.Helpers;
 using bageri.api.Interfaces;
 using bageri.api.ViewModels;
 using bageri.api.ViewModels.Address;
@@ -25,63 +26,68 @@ public class CustomerRepository : ICustomerRepository
         _context = context;
         
     }
-    public async Task<bool> Add(AddCustomerForRepositoryViewModel model)
+    public async Task<bool> Add(AddCustomerViewModel model)
     {
-        if(await _context.Customers.FirstOrDefaultAsync(c => c.Name.ToLower().Trim()
-            == model.Name.ToLower().Trim()) is not null)
+        try
         {
-            throw new Exception("Kunden finns redan");
-        }
-
-        var customer = new Customer
-        {
-            Name = model.Name
-        };
-
-        await _context.AddAsync(customer);
-        await _context.SaveChangesAsync();
-        
-        var contact = await _context.ContactInformations.FirstOrDefaultAsync(c=> c.Email.ToLower().Trim() 
-            == model.Contact.Email.ToLower().Trim());
-
-        if(contact is not null)
-        {
-            throw new Exception("Kunden finns redan");
-        }
-        else
-        {
-            contact = new ContactInformation
+            if(await _context.Customers.FirstOrDefaultAsync(c => c.Name.ToLower().Trim()
+            == model.CustomerName.ToLower().Trim()) is not null)
             {
-                ContactPerson = model.Contact.ContactPerson,
-                Email = model.Contact.Email,
-                PhoneNumber = model.Contact.PhoneNumber
+            throw new Exception("Kunden finns redan");
+            }
+
+            var customer = new Customer
+            {
+                Name = model.CustomerName
             };
 
-            await _context.ContactInformations.AddAsync(contact);
+            await _context.AddAsync(customer);
             await _context.SaveChangesAsync();
-        }
+            
+            var contact = await _context.ContactInformations.FirstOrDefaultAsync(c=> c.Email.ToLower().Trim() 
+                == model.Contact.Email.ToLower().Trim());
 
-        var cci = new CustomerContactInformation
-        {
-            CustomerId = customer.CustomerId,
-            ContactInformationId = contact.ContactInformationId
-        };
-
-        await _context.CustomerContactInformations.AddAsync(cci);
-
-        foreach (var add in model.Addresses)
-        {
-            var address = await _repo.Add(add);
-
-            await _context.CustomerAddresses.AddAsync(new CustomerAddress
+            if(contact is not null)
             {
-                Address = address,
-                Customer = customer
-            });
+                throw new Exception("Kunden finns redan");
+            }
+            else
+            {
+                contact = new ContactInformation
+                {
+                    ContactPerson = model.Contact.ContactPerson,
+                    Email = model.Contact.Email,
+                    PhoneNumber = model.Contact.PhoneNumber
+                };
+
+                await _context.ContactInformations.AddAsync(contact);
+                await _context.SaveChangesAsync();
+            }
+
+            var cci = new CustomerContactInformation
+            {
+                CustomerId = customer.CustomerId,
+                ContactInformationId = contact.ContactInformationId
+            };
+
+            await _context.CustomerContactInformations.AddAsync(cci);
+
+            foreach (var add in model.Addresses)
+            {
+                var address = await _repo.Add(add);
+
+                await _context.CustomerAddresses.AddAsync(new CustomerAddress
+                {
+                    Address = address,
+                    Customer = customer
+                });
+            }
+            return await _context.SaveChangesAsync() >0;
         }
-
-        return await _context.SaveChangesAsync() >0;
-
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
     }
 
     public async Task<FindCustomerViewModel> Find(int id)
@@ -104,10 +110,15 @@ public class CustomerRepository : ICustomerRepository
                     .ThenInclude(c => c.Product)
                 .SingleOrDefaultAsync();
 
+            if(customer is null)
+            {
+                throw new BageriException($"Ingen kund med Id: {id} finns i systemet");
+            }
+
             var view = new FindCustomerViewModel
             {
                 CustomerId = customer.CustomerId,
-                Name = customer.Name
+                CustomerName = customer.Name
             };
 
             var addresses = customer.CustomerAddresses.Select(c => new AddressViewModel
@@ -142,28 +153,40 @@ public class CustomerRepository : ICustomerRepository
 
             return view;
         }
-        catch (Exception ex)
+        catch (BageriException ex)
         {
             throw new Exception(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Någonting gick fel {ex.Message}");
         }
     }
 
     public async Task<IList<ListCustomersViewModel>> List()
     {
-        var response = await _context.Customers
-            .Include(c => c.CustomerContactInformation)
-                .ThenInclude(c => c.ContactInformation)
-            .ToListAsync();
+        try
+        {
+            var customers = await _context.Customers
+                .Include(c => c.CustomerContactInformation)
+                    .ThenInclude(c => c.ContactInformation)
+                .ToListAsync();
 
-        var customers = response.Select(c => new ListCustomersViewModel { 
-            CustomerId = c.CustomerId,
-            Name = c.Name,
-            ContactPerson = c.CustomerContactInformation.ContactInformation.ContactPerson,
-            Email = c.CustomerContactInformation.ContactInformation.Email,
-            PhoneNumber = c.CustomerContactInformation.ContactInformation.PhoneNumber
-        });
+            var view = customers.Select(c => new ListCustomersViewModel { 
+                CustomerId = c.CustomerId,
+                CustomerName = c.Name,
+                ContactPerson = c.CustomerContactInformation.ContactInformation.ContactPerson,
+                ContactInformationId = c.CustomerContactInformation.ContactInformation.ContactInformationId,
+                Email = c.CustomerContactInformation.ContactInformation.Email,
+                PhoneNumber = c.CustomerContactInformation.ContactInformation.PhoneNumber
+            });
 
-        return customers.ToList();
+            return view.ToList();          
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Ett fel inträffade {ex.Message}");
+        }
     }
 
 }

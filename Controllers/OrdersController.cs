@@ -27,41 +27,71 @@ public class OrdersController : ControllerBase
     [HttpGet()]
     public async Task<ActionResult> ListAllOrders()
     {
-        var result = await _unitOfWork.OrderRepository.List();
+        try
+        {
+            var result = await _unitOfWork.OrderRepository.List();
 
-        return Ok(new { success = true, data = result });
+            return Ok(new { success = true, data = result });            
+        }
+        catch (Exception ex)
+        {
+            return NotFound($"Ett fel inträffade {ex.Message}");
+        }
+            // var result = await _unitOfWork.OrderRepository.List();
+
+            // return Ok(new { success = true, data = result });
     }
 
     [HttpGet("ordernumber/{orderNumber}")]
     public async Task<ActionResult> FindOrderByOrderNumber(string orderNumber)
     {
-        var result = await _unitOfWork.OrderRepository.Find(orderNumber);
+        try
+        {
+            var result = await _unitOfWork.OrderRepository.Find(orderNumber);
 
-        return Ok(new { success = true, data = result });
+            return Ok(new { success = true, data = result });            
+        }
+        catch (Exception ex)
+        {
+            return NotFound(new{success = false, message = ex.Message});
+        }
     }
 
     [HttpGet("orderdate")]
     public async Task<ActionResult> FindOrderByOrderDate([FromQuery] DateTime orderDate)
     {
-        
-        var result = await _unitOfWork.OrderRepository.Find(orderDate);
+        try
+        {
+            var result = await _unitOfWork.OrderRepository.Find(orderDate);
 
-        return Ok(new { success = true, data = result });
+            return Ok(new { success = true, data = result });            
+        }
+        catch (Exception ex) 
+        {
+            return NotFound(new{success = false, message = ex.Message});
+        }
     }
 
     [HttpPost()]
     public async Task<ActionResult> AddOrder(AddOrderViewModel model)
     {
-        if(await _unitOfWork.OrderRepository.Add(model))
+        try
         {
-            if(_unitOfWork.HasChanges())
+            if(await _unitOfWork.OrderRepository.Add(model))
             {
-                await _unitOfWork.Complete();
+                if(_unitOfWork.HasChanges())
+                {
+                    await _unitOfWork.Complete();
+                }
+                return StatusCode(201);
             }
-            return StatusCode(201);
+            else{
+                return BadRequest();
+            }            
         }
-        else{
-            return BadRequest();
+        catch (Exception ex)
+        {
+            return BadRequest(new{success = false, message = ex.Message});
         }
         
     }

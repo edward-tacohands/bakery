@@ -22,16 +22,21 @@ public class CustomersController : ControllerBase
     public CustomersController(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-            
-       
     }
 
     [HttpGet()]
     public async Task<ActionResult>ListAllCustomers(){
 
-        var customers = await _unitOfWork.CustomerRepository.List();
+        try
+        {
+            var customers = await _unitOfWork.CustomerRepository.List();
 
-        return Ok(new{success = true, data = customers});
+            return Ok(new{success = true, data = customers});            
+        }
+        catch (Exception ex)
+        {
+            return NotFound($"Gick inte att hitta kunder {ex.Message}");
+        }
     }
 
    [HttpGet("{id}")]
@@ -48,20 +53,27 @@ public class CustomersController : ControllerBase
     }
 
     [HttpPost()]
-    public async Task<ActionResult>AddCustomer(AddCustomerForRepositoryViewModel model)
+    public async Task<ActionResult>AddCustomer(AddCustomerViewModel model)
     {
-       if(await _unitOfWork.CustomerRepository.Add(model))
-       {
-            if(_unitOfWork.HasChanges())
+        try
+        {
+            if(await _unitOfWork.CustomerRepository.Add(model))
             {
-                await _unitOfWork.Complete();
+                    if(_unitOfWork.HasChanges())
+                    {
+                        await _unitOfWork.Complete();
+                    }
+                    return StatusCode(201);
             }
-            return StatusCode(201);
-       }
-       else
-       {
-            return BadRequest();
-       }
+            else
+            {
+                    return BadRequest();
+            }            
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
   

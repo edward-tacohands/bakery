@@ -27,16 +27,23 @@ public class ProductPreparationController : ControllerBase
     [HttpPost()]
     public async Task<ActionResult>AddNewBatchOfProduct(NewBatchViewModel model)
     {
-        if(await _unitOfWork.ProductPreparationRepository.Add(model))
+        try
         {
-            if(_unitOfWork.HasChanges())
+            if(await _unitOfWork.ProductPreparationRepository.Add(model))
             {
-                await _unitOfWork.Complete();
+                if(_unitOfWork.HasChanges())
+                {
+                    await _unitOfWork.Complete();
+                }
+                return StatusCode(201);
             }
-            return StatusCode(201);
+            else{
+                return BadRequest();
+            }            
         }
-        else{
-            return BadRequest();
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
         }
     }
 }

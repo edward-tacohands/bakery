@@ -1,5 +1,6 @@
 ﻿using bageri.api.Data;
 using bageri.api.Entities;
+using bageri.api.Helpers;
 using bageri.api.ViewModels;
 using bageri.api.ViewModels.Product;
 using Microsoft.EntityFrameworkCore;
@@ -17,87 +18,132 @@ public class ProductRepositories : IProductRepository
     }
     public async Task<bool> AddProduct(AddProductViewModel model)
     {
-        var view = new Product
+        try
         {
-            Name = model.Name,
-            PricePackage = model.PricePackage,
-            WeightInKg = model.WeightInKg,
-            AmountInPackage = model.AmountInPackage
-        };
-        
-        await _context.AddAsync(view);
-        await _context.SaveChangesAsync();
+            var prod = await _context.Products.FirstOrDefaultAsync(p => p.Name == model.ProductName);
+            
+            if(prod is not null)
+            {
+                throw new BageriException($"Produkten {model.ProductName} finns redan i systemet");
+            }
 
-        return true;
+            var view = new Product
+            {
+                Name = model.ProductName,
+                PricePackage = model.PricePackage,
+                WeightInKg = model.WeightInKg,
+                AmountInPackage = model.AmountInPackage
+            };
+            
+            await _context.AddAsync(view);
+
+            return await _context.SaveChangesAsync() >0;            
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
     }
 
     public async Task<GetProductViewModel> FindProduct(int id)
     {
-        var p = await _context.Products
-            .Where(p => p.ProductId == id)
-            .Include(p => p.ProductPreparations)
-            .SingleOrDefaultAsync();
-
-        if (p is null)
+        try
         {
-            throw new Exception($"Finns ingen produkt med id {id}");
-        }
+            var p = await _context.Products
+                .Where(p => p.ProductId == id)
+                .Include(p => p.ProductPreparations)
+                .SingleOrDefaultAsync();
 
-        var view = new GetProductViewModel
-        {
-                ProductId = p.ProductId,
-                ProductName = p.Name,
-                WeightInKg = p.WeightInKg,
-                PricePackage = p.PricePackage,
-                AmountInPackage = p.AmountInPackage
-        };
-
-        IList<ProductPreparationViewModel> prep = [];
-        foreach (var productPrep in p.ProductPreparations)
-        {
-            var prepView = new ProductPreparationViewModel
+            if (p is null)
             {
-                ExpiryDate = productPrep.ExpiryDate,
-                PreparationDate = productPrep.PreparationDate
+                throw new BageriException($"Finns ingen produkt med id {id}");
+            }
+
+            var view = new GetProductViewModel
+            {
+                    ProductId = p.ProductId,
+                    ProductName = p.Name,
+                    WeightInKg = p.WeightInKg,
+                    PricePackage = p.PricePackage,
+                    AmountInPackage = p.AmountInPackage
             };
-            prep.Add(prepView);
+
+            IList<ProductPreparationViewModel> prep = [];
+            foreach (var productPrep in p.ProductPreparations)
+            {
+                var prepView = new ProductPreparationViewModel
+                {
+                    ExpiryDate = productPrep.ExpiryDate,
+                    PreparationDate = productPrep.PreparationDate
+                };
+                prep.Add(prepView);
+            }
+            view.ProductPreparations = prep;
+            return view;            
         }
-        view.ProductPreparations = prep;
-        return view;
+        catch (BageriException ex)
+        {
+            throw new Exception(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }        
+
     }
 
     public async Task<IList<ProductsViewModel>> ListAllProducts()
     {
-         var products = await _context.Products.ToListAsync();
+        try
+        {
+            var products = await _context.Products.ToListAsync();
 
-         IList<ProductsViewModel> response = [];
+            IList<ProductsViewModel> response = [];
 
-         foreach(var p in products)
-         {
-            var view = new ProductsViewModel
+            foreach(var p in products)
             {
-                ProductId = p.ProductId,
-                ProductName = p.Name,
-                WeightInKg = p.WeightInKg,
-                PricePackage = p.PricePackage,
-                AmountInPackage = p.AmountInPackage
-            };
+                var view = new ProductsViewModel
+                {
+                    ProductId = p.ProductId,
+                    ProductName = p.Name,
+                    WeightInKg = p.WeightInKg,
+                    PricePackage = p.PricePackage,
+                    AmountInPackage = p.AmountInPackage
+                };
 
-            response.Add(view);
-         }
-         return response;
+                response.Add(view);
+            }
+            return response;            
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Ett fel inträffade {ex.Message}");
+        }
+
     }
 
     public async Task<bool> Update(int id, decimal price)
     {
-        var prod = await _context.Products.SingleOrDefaultAsync(c => c.ProductId == id);
-
-        if(prod is null)
+        try
         {
-            throw new Exception($"Produkt med id {id} existerar inte");
-        }
-        prod.PricePackage = price;
+            var prod = await _context.Products.SingleOrDefaultAsync(c => c.ProductId == id);
 
-        return await _context.SaveChangesAsync() >0;
+            if(prod is null)
+            {
+                throw new BageriException($"Produkt med id {id} existerar inte");
+            }
+            prod.PricePackage = price;
+
+            return await _context.SaveChangesAsync() >0;            
+        }
+        catch (BageriException ex)
+        {
+            throw new Exception(ex.Message);
+        }
+        catch(Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using bageri.api.Data;
 using bageri.api.Entities;
+using bageri.api.Helpers;
 using bageri.api.Interfaces;
 using bageri.api.ViewModels;
 using bageri.api.ViewModels.ContactInformation;
@@ -58,6 +59,11 @@ public class ContactInformationRepository : IContactInformationRepository
         try
         {
             var cc = await _context.ContactInformations.FirstOrDefaultAsync(cc => cc.ContactInformationId == id);
+            
+            if(cc is null)
+            {
+                throw new BageriException($"Ingen kontaktperson med Id: {id} hittades");
+            }
 
             cc.ContactPerson = model.ContactPerson;
             cc.Email = model.Email;

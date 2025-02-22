@@ -24,16 +24,23 @@ public class ContactInformationsController : ControllerBase
     [HttpPatch("{id}")]
     public async Task<ActionResult> Update(int id, UpdateContactInformationsViewModel model)
     {
-        if(await _unitOfWork.ContactInformationRepository.Update(id, model))
+        try
         {
-            if(_unitOfWork.HasChanges())
+            if(await _unitOfWork.ContactInformationRepository.Update(id, model))
             {
-                await _unitOfWork.Complete();
+                if(_unitOfWork.HasChanges())
+                {
+                    await _unitOfWork.Complete();
+                }
+                return StatusCode(204);
             }
-            return StatusCode(204);
+            else{
+                return BadRequest();
+            }            
         }
-        else{
-            return BadRequest();
+        catch (Exception ex)
+        {
+            return NotFound(new{success = false, message = ex.Message});
         }
         
     }

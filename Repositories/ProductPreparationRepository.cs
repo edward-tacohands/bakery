@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using bageri.api.Data;
 using bageri.api.Entities;
+using bageri.api.Helpers;
 using bageri.api.Interfaces;
 using bageri.api.ViewModels.Product;
 using Microsoft.EntityFrameworkCore;
@@ -20,19 +21,34 @@ public class ProductPreparationRepository : IProductPreparationRepository
     }
     public async Task<bool> Add(NewBatchViewModel model)
     {
-        if(await _context.Products.SingleOrDefaultAsync(p=> p.ProductId == model.ProductId) is null)
+        try
         {
-            throw new Exception ($"Produkten med id {model.ProductId} finns inte i systemet");
-        }
-        
-        var newBatch = new ProductPreparation
-        {
-            ProductId = model.ProductId,
-            ExpiryDate = model.ExpiryDate,
-            PreparationDate = model.PreparationDate
-        };
+            if(await _context.Products.SingleOrDefaultAsync(p=> p.ProductId == model.ProductId) is null)
+            {
+                throw new BageriException ($"Produkten med id {model.ProductId} finns inte i systemet");
+            }
+            if(model.ExpiryDate < model.PreparationDate)
+            {
+                throw new BageriException("Produktens utgångsdatum kan inte vara före bakdatumet");
+            }
+            
+            var newBatch = new ProductPreparation
+            {
+                ProductId = model.ProductId,
+                ExpiryDate = model.ExpiryDate,
+                PreparationDate = model.PreparationDate
+            };
 
-        await _context.ProductPreparations.AddAsync(newBatch);
-        return await _context.SaveChangesAsync() >0;
+            await _context.ProductPreparations.AddAsync(newBatch);
+            return await _context.SaveChangesAsync() >0;            
+        }
+        catch (BageriException ex)
+        {
+            throw new Exception(ex.Message);
+        }
+        catch(Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
     }
 }

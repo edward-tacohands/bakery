@@ -23,7 +23,7 @@ public class UnitOfWork : IUnitOfWork
 
     public ICustomerRepository CustomerRepository => new CustomerRepository(_context, _repo);
 
-    public IOrderRepository OrderRepository => new OrderRepository(_context);
+    public IOrderRepository OrderRepository => new OrderRepository(_context, _repo);
 
     public IProductPreparationRepository ProductPreparationRepository => new ProductPreparationRepository(_context);
 

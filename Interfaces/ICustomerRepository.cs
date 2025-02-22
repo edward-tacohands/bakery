@@ -10,5 +10,5 @@ public interface ICustomerRepository
 {
     public Task<IList<ListCustomersViewModel>>List();
     public Task<FindCustomerViewModel>Find(int id);
-    public Task<bool>Add(AddCustomerForRepositoryViewModel model);
+    public Task<bool>Add(AddCustomerViewModel model);
 }
