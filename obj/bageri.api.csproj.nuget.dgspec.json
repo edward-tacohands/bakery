@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/lueduardo/Jensen/cSharp-Forts/Inlämning del2/bageri.api/bageri.api.csproj": {}
+    "/Users/lueduardo/Jensen/cSharp-Forts/Inlämning del2 ordernumber/bageri.api/bageri.api.csproj": {}
   },
   "projects": {
-    "/Users/lueduardo/Jensen/cSharp-Forts/Inlämning del2/bageri.api/bageri.api.csproj": {
+    "/Users/lueduardo/Jensen/cSharp-Forts/Inlämning del2 ordernumber/bageri.api/bageri.api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/lueduardo/Jensen/cSharp-Forts/Inlämning del2/bageri.api/bageri.api.csproj",
+        "projectUniqueName": "/Users/lueduardo/Jensen/cSharp-Forts/Inlämning del2 ordernumber/bageri.api/bageri.api.csproj",
         "projectName": "bageri.api",
-        "projectPath": "/Users/lueduardo/Jensen/cSharp-Forts/Inlämning del2/bageri.api/bageri.api.csproj",
+        "projectPath": "/Users/lueduardo/Jensen/cSharp-Forts/Inlämning del2 ordernumber/bageri.api/bageri.api.csproj",
         "packagesPath": "/Users/lueduardo/.nuget/packages/",
-        "outputPath": "/Users/lueduardo/Jensen/cSharp-Forts/Inlämning del2/bageri.api/obj/",
+        "outputPath": "/Users/lueduardo/Jensen/cSharp-Forts/Inlämning del2 ordernumber/bageri.api/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/lueduardo/.nuget/NuGet/NuGet.Config"

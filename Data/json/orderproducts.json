@@ -43,5 +43,45 @@
         "orderId": 3,
         "productId": 3,
         "quantityOfPackages": 5
+    },
+    {
+        "orderId": 4,
+        "productId": 1,
+        "quantityOfPackages": 6
+    },
+    {
+        "orderId": 4,
+        "productId": 5,
+        "quantityOfPackages": 2
+    },
+    {
+        "orderId": 5,
+        "productId": 1,
+        "quantityOfPackages": 3
+    },
+    {
+        "orderId": 5,
+        "productId": 2,
+        "quantityOfPackages": 2
+    },
+    {
+        "orderId": 5,
+        "productId": 4,
+        "quantityOfPackages": 4
+    },
+    {
+        "orderId": 6,
+        "productId": 1,
+        "quantityOfPackages": 8
+    },
+    {
+        "orderId": 6,
+        "productId": 3,
+        "quantityOfPackages": 9
+    },
+    {
+        "orderId": 6,
+        "productId": 2,
+        "quantityOfPackages": 21
     }
 ]

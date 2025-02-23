@@ -16,6 +16,7 @@ public class OrderRepository : IOrderRepository
 {
     private readonly DataContext _context;
     private readonly IAddressRepository _repo;
+    
     public OrderRepository(DataContext context, IAddressRepository repo)
     {
         _repo = repo;
@@ -27,7 +28,7 @@ public class OrderRepository : IOrderRepository
 
         try
         {
-    var customer = await _context.Customers
+            var customer = await _context.Customers
                 .FirstOrDefaultAsync(c => c.Name.ToLower().Trim() == model.CustomerName.ToLower().Trim());
 
             if (customer is null)
@@ -42,7 +43,8 @@ public class OrderRepository : IOrderRepository
                 {
                     var address = await _repo.Add(add);
 
-                    await _context.CustomerAddresses.AddAsync(new CustomerAddress{
+                    await _context.CustomerAddresses.AddAsync(new CustomerAddress
+                    {
                         Address = address,
                         Customer = customer
                     });
@@ -105,13 +107,13 @@ public class OrderRepository : IOrderRepository
                 });
             }
 
-            return await _context.SaveChangesAsync() >0;            
+            return await _context.SaveChangesAsync() > 0;
         }
         catch (BageriException ex)
         {
             throw new Exception(ex.Message);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             throw new Exception($"Någonting gick fel {ex.Message}");
         }
@@ -122,14 +124,14 @@ public class OrderRepository : IOrderRepository
         try
         {
             var order = await _context.Orders
-                .Where(o => o.OrderNumber.ToLower().Trim() == orderNumber.ToLower().Trim() )
-                .Include( o => o.OrderProducts)
+                .Where(o => o.OrderNumber.ToLower().Trim() == orderNumber.ToLower().Trim())
+                .Include(o => o.OrderProducts)
                     .ThenInclude(op => op.Product)
                 .Include(o => o.CustomerOrders)
                     .ThenInclude(co => co.Customer)
             .SingleOrDefaultAsync();
 
-            if(order is null)
+            if (order is null)
             {
                 throw new BageriException($"Ordernumret som du angivit {orderNumber}, finns inte i systemet");
             }
@@ -140,7 +142,8 @@ public class OrderRepository : IOrderRepository
                 OrderNumber = order.OrderNumber,
                 OrderDate = order.OrderDate,
                 TotalPriceForOrder = order.OrderProducts.Sum(op => op.Product.PricePackage * op.QuantityOfPackages),
-                OrderProducts = order.OrderProducts.Select(o => new OrderProductsViewModel{
+                OrderProducts = order.OrderProducts.Select(o => new OrderProductsViewModel
+                {
                     ProductName = o.Product.Name,
                     QuantityOfPackages = o.QuantityOfPackages,
                     PricePackage = o.Product.PricePackage,
@@ -150,13 +153,13 @@ public class OrderRepository : IOrderRepository
                 }).ToList()
             };
 
-            return view;            
+            return view;
         }
         catch (BageriException ex)
         {
             throw new Exception(ex.Message);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             throw new Exception(ex.Message);
         }
@@ -168,40 +171,42 @@ public class OrderRepository : IOrderRepository
         {
             var orders = await _context.Orders
                 .Where(o => o.OrderDate.Date == orderDate.Date)
-                .Include( o => o.OrderProducts)
+                .Include(o => o.OrderProducts)
                     .ThenInclude(op => op.Product)
                 .Include(o => o.CustomerOrders)
-                    .ThenInclude(co => co.Customer)        
+                    .ThenInclude(co => co.Customer)
             .ToListAsync();
 
-            if(!orders.Any())
+            if (!orders.Any())
             {
                 throw new BageriException($"Ingen order hittades under {orderDate}");
             }
 
-            var view = orders.Select(o => new ListOrdersViewModel{
-                    CustomerName = o.CustomerOrders.Select(co => co.Customer.Name).SingleOrDefault(),
-                    OrderNumber = o.OrderNumber,
-                    OrderDate = o.OrderDate,
-                    TotalPriceForOrder = o.OrderProducts.Sum(op => op.Product.PricePackage * op.QuantityOfPackages),
-                    OrderProducts = o.OrderProducts.Select( o => new OrderProductsViewModel{
-                        ProductName = o.Product.Name,
-                        QuantityOfPackages = o.QuantityOfPackages,
-                        PricePackage = o.Product.PricePackage,
-                        AmountInPackage = o.Product.AmountInPackage,
-                        PricePerPiece = o.Product.PricePackage / o.Product.AmountInPackage,
-                        QuantityOfPieces = o.Product.AmountInPackage * o.QuantityOfPackages,
-                        TotalPriceForProduct = o.Product.PricePackage * o.QuantityOfPackages
-                    }).ToList()
-                }).ToList();
-                
-            return view;            
+            var view = orders.Select(o => new ListOrdersViewModel
+            {
+                CustomerName = o.CustomerOrders.Select(co => co.Customer.Name).SingleOrDefault(),
+                OrderNumber = o.OrderNumber,
+                OrderDate = o.OrderDate,
+                TotalPriceForOrder = o.OrderProducts.Sum(op => op.Product.PricePackage * op.QuantityOfPackages),
+                OrderProducts = o.OrderProducts.Select(o => new OrderProductsViewModel
+                {
+                    ProductName = o.Product.Name,
+                    QuantityOfPackages = o.QuantityOfPackages,
+                    PricePackage = o.Product.PricePackage,
+                    AmountInPackage = o.Product.AmountInPackage,
+                    PricePerPiece = o.Product.PricePackage / o.Product.AmountInPackage,
+                    QuantityOfPieces = o.Product.AmountInPackage * o.QuantityOfPackages,
+                    TotalPriceForProduct = o.Product.PricePackage * o.QuantityOfPackages
+                }).ToList()
+            }).ToList();
+
+            return view;
         }
         catch (BageriException ex)
         {
             throw new Exception(ex.Message);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             throw new Exception(ex.Message);
         }
@@ -217,52 +222,31 @@ public class OrderRepository : IOrderRepository
                 .Include(o => o.CustomerOrders)
                     .ThenInclude(co => co.Customer)
                 .ToListAsync();
-                
-                var view = orders.Select(o => new ListOrdersViewModel{
-                    CustomerName = o.CustomerOrders.Select(co => co.Customer.Name).SingleOrDefault(),
-                    OrderNumber = o.OrderNumber,
-                    OrderDate = o.OrderDate,
-                    TotalPriceForOrder = o.OrderProducts.Sum(op => op.Product.PricePackage * op.QuantityOfPackages),
-                    OrderProducts = o.OrderProducts.Select( o => new OrderProductsViewModel{
-                        ProductName = o.Product.Name,
-                        QuantityOfPackages = o.QuantityOfPackages,
-                        PricePackage = o.Product.PricePackage,
-                        AmountInPackage = o.Product.AmountInPackage,
-                        PricePerPiece = o.Product.PricePackage / o.Product.AmountInPackage,
-                        QuantityOfPieces = o.Product.AmountInPackage * o.QuantityOfPackages,
-                        TotalPriceForProduct = o.Product.PricePackage * o.QuantityOfPackages
-                    }).ToList()
-                }).ToList();
-            return view;            
+
+            var view = orders.Select(o => new ListOrdersViewModel
+            {
+                CustomerName = o.CustomerOrders.Select(co => co.Customer.Name).SingleOrDefault(),
+                OrderNumber = o.OrderNumber,
+                OrderDate = o.OrderDate,
+                TotalPriceForOrder = o.OrderProducts.Sum(op => op.Product.PricePackage * op.QuantityOfPackages),
+                OrderProducts = o.OrderProducts.Select(o => new OrderProductsViewModel
+                {
+                    ProductName = o.Product.Name,
+                    QuantityOfPackages = o.QuantityOfPackages,
+                    PricePackage = o.Product.PricePackage,
+                    AmountInPackage = o.Product.AmountInPackage,
+                    PricePerPiece = o.Product.PricePackage / o.Product.AmountInPackage,
+                    QuantityOfPieces = o.Product.AmountInPackage * o.QuantityOfPackages,
+                    TotalPriceForProduct = o.Product.PricePackage * o.QuantityOfPackages
+                }).ToList()
+            }).ToList();
+            return view;
         }
         catch (Exception ex)
         {
             throw new Exception($"Ett fel inträffade {ex.Message}");
         }
-            // var orders = await _context.Orders
-            //     .Include(o => o.OrderProducts)
-            //         .ThenInclude(op => op.Product)
-            //     .Include(o => o.CustomerOrders)
-            //         .ThenInclude(co => co.Customer)
-            //     .ToListAsync();
-                
-            //     var view = orders.Select(o => new ListOrdersViewModel{
-            //         CustomerName = o.CustomerOrders.Select(co => co.Customer.Name).SingleOrDefault(),
-            //         OrderNumber = o.OrderNumber,
-            //         OrderDate = o.OrderDate,
-            //         TotalPriceForOrder = o.OrderProducts.Sum(op => op.Product.PricePackage * op.QuantityOfPackages),
-            //         OrderProducts = o.OrderProducts.Select( o => new OrderProductsViewModel{
-            //             ProductName = o.Product.Name,
-            //             QuantityOfPackages = o.QuantityOfPackages,
-            //             PricePackage = o.Product.PricePackage,
-            //             AmountInPackage = o.Product.AmountInPackage,
-            //             PricePerPiece = o.Product.PricePackage / o.Product.AmountInPackage,
-            //             QuantityOfPieces = o.Product.AmountInPackage * o.QuantityOfPackages,
-            //             TotalPriceForProduct = o.Product.PricePackage * o.QuantityOfPackages
-            //         }).ToList()
-            //     }).ToList();
-            // return view;
     }
 
-    
+
 }

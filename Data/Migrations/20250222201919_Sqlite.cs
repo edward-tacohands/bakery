@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace bageri.api.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class SqliteAgain : Migration
+    public partial class Sqlite : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

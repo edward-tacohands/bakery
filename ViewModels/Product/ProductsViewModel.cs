@@ -11,5 +11,6 @@ public class ProductsViewModel
     public string ProductName { get; set; }
     public decimal PricePackage { get; set; }
     public decimal WeightInKg { get; set; }
-    public int AmountInPackage { get; set; }
+    public int AmountInPackage { get; set; }    
+
 }

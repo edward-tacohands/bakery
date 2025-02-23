@@ -10,6 +10,5 @@ namespace bageri.api.Interfaces;
 
 public interface IContactInformationRepository
 {
-    public Task<ContactInformation> Add(AddContactViewModel model);
     public Task<bool> Update(int id, UpdateContactInformationsViewModel model);
 }

@@ -20,39 +20,6 @@ public class ContactInformationRepository : IContactInformationRepository
         _context = context;
     }
 
-    public async Task<ContactInformation> Add(AddContactViewModel model)
-    {
-        var cc = await _context.CustomerContactInformations.FirstOrDefaultAsync(
-            c => c.ContactInformationId == model.ContactInformationId);
-
-        if (cc is null)
-        {
-            cc = new CustomerContactInformation
-            {
-                ContactInformationId = model.ContactInformationId,
-                CustomerId = model.CustomerId
-            };
-            await _context.CustomerContactInformations.AddAsync(cc);
-        }
-        
-        var contact = await _context.ContactInformations.FirstOrDefaultAsync(
-            c => c.Email.ToLower().Trim() == model.Email.ToLower().Trim());
-        
-        if (contact is null)
-        {
-            contact = new ContactInformation
-            {
-                ContactPerson = model.ContactPerson,
-                Email = model.Email.ToLower().Trim(),
-                PhoneNumber = model.PhoneNumber.Replace(" ", "").Trim(),
-                CustomerContactInformation = cc
-            };
-            await _context.ContactInformations.AddAsync(contact);
-        }
-
-        await _context.SaveChangesAsync();
-        return contact;
-    }
 
     public async Task<bool> Update(int id, UpdateContactInformationsViewModel model)
     {

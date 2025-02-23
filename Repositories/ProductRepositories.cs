@@ -37,7 +37,8 @@ public class ProductRepositories : IProductRepository
             
             await _context.AddAsync(view);
 
-            return await _context.SaveChangesAsync() >0;            
+            return await _context.SaveChangesAsync() >0;         
+
         }
         catch (Exception ex)
         {
